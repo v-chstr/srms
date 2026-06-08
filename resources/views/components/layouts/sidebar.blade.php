@@ -32,7 +32,7 @@
                 <img src="{{ asset('images/spup-site.png') }}" alt="SPUP SITE" class="h-9 w-9 object-contain" />
             </div>
             <div class="min-w-0">
-                <p class="text-sm font-semibold leading-tight text-white">School <span class="text-accent-400">Research</span></p>
+                <p class="text-sm font-semibold leading-tight text-white">Student <span class="text-accent-400">Research</span></p>
                 <p class="text-sm font-semibold leading-tight text-primary-200">Management System</p>
                 <p class="text-xs text-primary-400 mt-0.5">SPUP-SITE</p>
             </div>
