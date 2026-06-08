@@ -1,0 +1,271 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Old English Text MT — local font for SRMS brand mark */
+@font-face {
+    font-family: 'Old English Text MT';
+    src: url('/fonts/OldEnglish.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+[x-cloak] { display: none !important; }
+
+/* Minimal scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+}
+
+/* ── Queue progress bar — shimmer sweep animation ──────────────
+   A bright highlight sweeps left-to-right over the colored fill,
+   making it unmistakably animated at any fill width. The fill
+   color comes from bg-primary-500 / bg-green-500 (Tailwind).
+   Applied via .queue-progress-live on the fill element.
+   ──────────────────────────────────────────────────────────────── */
+@keyframes queue-shimmer {
+    0%   { transform: translateX(-150%); }
+    100% { transform: translateX(500%); }
+}
+
+.queue-progress-live {
+    position: relative;
+    overflow: hidden;
+}
+
+.queue-progress-live::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 28%;
+    background: linear-gradient(
+        90deg,
+        transparent           0%,
+        rgba(255,255,255,.60) 45%,
+        rgba(255,255,255,.75) 50%,
+        rgba(255,255,255,.60) 55%,
+        transparent           100%
+    );
+    animation: queue-shimmer 1.6s ease-in-out infinite;
+}
+
+/* ── Stats grid horizontal scroll shadow (mobile) ────────────────
+   Scroll shadows at right edge give a visual cue on narrow screens.
+   Works with background-attachment: local — no JS needed.
+   ──────────────────────────────────────────────────────────────── */
+.stats-scroll-x {
+    background:
+        /* Left shadow (hides at scroll start) */
+        linear-gradient(to right, white 30%, transparent) left center / 24px 100% no-repeat,
+        /* Right shadow (shows when there is more content to the right) */
+        linear-gradient(to left,  white 30%, transparent) right center / 24px 100% no-repeat,
+        /* Left scroll-attached mask */
+        radial-gradient(ellipse at 0 50%, rgba(0,0,0,0.06), transparent 70%) left center / 20px 100% no-repeat,
+        /* Right scroll-attached mask */
+        radial-gradient(ellipse at 100% 50%, rgba(0,0,0,0.06), transparent 70%) right center / 20px 100% no-repeat;
+    background-attachment: local, local, scroll, scroll;
+}
+
+/* ── FullCalendar — Academic Calendar Theme ───────────────────────
+   Google Calendar-inspired, clean grid, scholarly purple/gold events.
+   No uppercase, no tracking, rounded-md on events.
+   ──────────────────────────────────────────────────────────────── */
+
+.srms-calendar {
+    --fc-border-color: #e5e7eb;
+    --fc-today-bg-color: #faf9ff;
+    --fc-neutral-bg-color: #ffffff;
+    --fc-page-bg-color: #ffffff;
+    --fc-small-font-size: 0.75rem;
+    font-size: 0.875rem;
+    /* No global min-width — cells shrink responsively instead */
+}
+
+/* Day grid structure */
+.srms-calendar .fc-theme-standard td,
+.srms-calendar .fc-theme-standard th {
+    border-color: #f3f4f6;
+}
+
+.srms-calendar .fc-theme-standard .fc-scrollgrid {
+    border: none;
+}
+
+/* Column headers (Mon, Tue, etc.) */
+.srms-calendar .fc-col-header-cell {
+    padding: 8px 0;
+    background: #fafafa;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.srms-calendar .fc-col-header-cell-cushion {
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-transform: none;
+    letter-spacing: 0;
+    text-decoration: none;
+    padding: 4px 8px;
+}
+
+/* Day number cells — min-width per cell sets the responsive floor (7 × 56px = 392px total) */
+.srms-calendar .fc-daygrid-day {
+    min-height: 88px;
+    min-width: 56px;
+}
+
+.srms-calendar .fc-col-header-cell {
+    min-width: 56px;
+}
+
+.srms-calendar .fc-daygrid-day-top {
+    padding: 4px 8px 2px;
+    flex-direction: row;
+}
+
+.srms-calendar .fc-daygrid-day-number {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    text-decoration: none;
+    padding: 2px 4px;
+    line-height: 1.4;
+}
+
+/* Today highlight */
+.srms-calendar .fc-day-today {
+    background: var(--fc-today-bg-color) !important;
+}
+
+.srms-calendar .fc-day-today .fc-daygrid-day-number {
+    background: #5236a8;
+    color: #ffffff;
+    border-radius: 9999px;
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+/* Other month days */
+.srms-calendar .fc-day-other .fc-daygrid-day-number {
+    color: #d1d5db;
+}
+
+.srms-calendar .fc-day-other {
+    background: #fcfcfd;
+}
+
+/* ── Event pills ─────────────────────────────────────────────── */
+
+.srms-calendar .fc-daygrid-event {
+    border: none;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 2px 6px;
+    margin: 1px 4px;
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+/* Global events — scholarly purple */
+.srms-calendar .fc-event.fc-event-global {
+    background-color: #eae6fb;
+    color: #5236a8;
+}
+
+.srms-calendar .fc-event.fc-event-global:hover {
+    background-color: #d5ccf7;
+}
+
+/* Course-scoped events — academic gold */
+.srms-calendar .fc-event.fc-event-course {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.srms-calendar .fc-event.fc-event-course:hover {
+    background-color: #fde68a;
+}
+
+/* Event dot (for list display mode) */
+.srms-calendar .fc-daygrid-event-dot {
+    display: none;
+}
+
+/* Event time display */
+.srms-calendar .fc-event-time {
+    font-size: 0.625rem;
+    font-weight: 600;
+    margin-right: 3px;
+}
+
+/* "+N more" link */
+.srms-calendar .fc-daygrid-more-link {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #7b5bdb;
+    margin: 1px 4px;
+    padding: 1px 4px;
+    border-radius: 4px;
+}
+
+.srms-calendar .fc-daygrid-more-link:hover {
+    background: #f4f2fd;
+    text-decoration: none;
+}
+
+/* Popover ("+N more" click) */
+.srms-calendar .fc-popover {
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    overflow: hidden;
+}
+
+.srms-calendar .fc-popover-header {
+    background: #fafafa;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* Remove default FC hover effects */
+.srms-calendar .fc-daygrid-event-harness {
+    margin-top: 1px;
+}
+
+/* Clean up FC default borders at the outer edge */
+.srms-calendar .fc-scrollgrid-section > * {
+    border: none;
+}
+
+.srms-calendar .fc .fc-scroller-harness {
+    overflow: visible;
+}
